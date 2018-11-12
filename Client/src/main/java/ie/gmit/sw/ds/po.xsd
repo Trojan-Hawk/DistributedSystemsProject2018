@@ -1,0 +1,81 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:gmit="http://sw.gmit.ie/ds/" targetNamespace="http://sw.gmit.ie/ds/" elementFormDefault="qualified">
+  <xsd:element name='comment' type='xsd:string'/>
+
+  <xsd:element name='purchaseOrder' type='gmit:PurchaseOrder'/>
+
+  <xsd:simpleType name="Country">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Ireland"/>
+      <xsd:enumeration value="UK"/>
+      <xsd:enumeration value="US"/>
+      <xsd:enumeration value="France"/>
+	  <xsd:enumeration value="Spain"/>
+	  <xsd:enumeration value="Italy"/>
+      <xsd:enumeration value="Germany"/>
+	  <xsd:enumeration value="Russia"/>
+	  <xsd:enumeration value="China"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="OrderNumber">
+      <xsd:restriction base="xsd:string">
+         <xsd:pattern value="[0-9]{5}(-[A-Z]{4})?"/>
+      </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name='SKU'>
+    <xsd:restriction base='xsd:string'>
+      <xsd:pattern value='\d{3}\w{3}'/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+
+  <xsd:complexType name='Address'>
+    <xsd:annotation>
+      <xsd:documentation>
+        Purchase order schema example.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name='name'   type='xsd:string'/>
+      <xsd:element name='street' type='xsd:string'/>
+      <xsd:element name='city'   type='xsd:string'/>
+      <xsd:element name='county'  type='xsd:string'/>
+    </xsd:sequence>
+    <xsd:attribute name='country' type='gmit:Country'/>
+  </xsd:complexType>
+
+
+  <xsd:complexType name='Items'>
+    <xsd:sequence>
+      <xsd:element name='item' minOccurs='0' maxOccurs='unbounded'>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name='productName' type='xsd:string'/>
+            <xsd:element name='quantity'>
+              <xsd:simpleType>
+                <xsd:restriction base='xsd:positiveInteger'>
+                  <xsd:minInclusive value='1'/>
+                  <xsd:maxExclusive value='100'/>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name='price'  type='xsd:decimal'/>
+            <xsd:element name='shipDate' type='xsd:date' minOccurs='0'/>
+          </xsd:sequence>
+          <xsd:attribute name='partNumber' type='gmit:SKU'/>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name='PurchaseOrder'>
+    <xsd:sequence>
+      <xsd:element name='shipTo' type='gmit:Address'/>
+      <xsd:element name='billTo' type='gmit:Address'/>
+      <xsd:element name='items'  type='gmit:Items'/>
+    </xsd:sequence>
+	<xsd:attribute name='orderNumber' type='gmit:OrderNumber' use='required'/>
+    <xsd:attribute name='orderDate' type='xsd:date' use='required'/>
+  </xsd:complexType>
+</xsd:schema>
