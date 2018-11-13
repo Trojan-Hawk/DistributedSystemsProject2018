@@ -92,7 +92,7 @@ public class BookingsDatabase {
 				    String firstName = rs.getString("customerId");
 				    String lastName = rs.getString("regNo");	
 				    Date date = rs.getDate("bookingdate");
-				    str = id + ", " + firstName + ", " + lastName /*+ ", " + date.toString()*/;
+				    str += id + ", " + firstName + ", " + lastName /*+ ", " + date.toString()*/;
 				}
 			}
 			else if(table.equalsIgnoreCase("Customer")) {
@@ -100,7 +100,7 @@ public class BookingsDatabase {
 				    int id = rs.getInt("customerId");
 				    String firstName = rs.getString("firstname");
 				    String lastName = rs.getString("lastname");	        
-				    str = id + ", " + firstName + ", " + lastName;
+				    str += id + ", " + firstName + ", " + lastName;
 				}
 			}
 			else if(table.equalsIgnoreCase("Vehicle")) {
@@ -108,7 +108,7 @@ public class BookingsDatabase {
 				    int reg = rs.getInt("regNo");
 				    String brand = rs.getString("brand");
 				    String model = rs.getString("model");	        
-				    str = reg + ", " + brand + ", " + model;
+				    str += reg + ", " + brand + ", " + model;
 				}
 			}
 			System.out.println("Read OK!");
