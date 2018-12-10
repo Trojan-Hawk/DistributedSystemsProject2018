@@ -28,27 +28,32 @@ public class RMIClient {
 	}
 	
 	// Booking CRUD operation method calls
-	public String CreateBooking(int bookingID, String vehicleReg, int customerId, Date date) throws RemoteException{
+	public String CreateBooking(int bookingID, String vehicleReg, int customerId, String date) throws RemoteException{
 		Booking b = new Booking(bookingID, customerId, vehicleReg, date);
 
 		result = ds.CreateBooking(b);
 		return result;
 	}
 	
-	public String ReadBooking(int bookingID, String vehicleReg, int customerId, Date date) throws RemoteException {
+	public String ReadAllBookings() throws RemoteException {
+		result = ds.ReadBookings();
+		return result;
+	}
+	
+	public String ReadBooking(int bookingID, String vehicleReg, int customerId, String date) throws RemoteException {
 		Booking b = new Booking(bookingID, customerId, vehicleReg, date);
 		result = ds.ReadBooking(b);
 		return result;
 	}
 	
-	public String UpdateBooking(int bookingID, String vehicleReg, int customerId, Date date) throws RemoteException {
+	public String UpdateBooking(int bookingID, String vehicleReg, int customerId, String date) throws RemoteException {
 		Booking b = new Booking(bookingID, customerId, vehicleReg, date);
 		
 		result = ds.UpdateBooking(b);
 		return result;
 	}
 	
-	public String DeleteBooking(int bookingID, String vehicleReg, int customerId, Date date) throws RemoteException {
+	public String DeleteBooking(int bookingID, String vehicleReg, int customerId, String date) throws RemoteException {
 		Booking b = new Booking(bookingID, customerId, vehicleReg, date);
 		
 		result = ds.DeleteBooking(b);
@@ -60,6 +65,11 @@ public class RMIClient {
 		Customer c = new Customer(customerID, firstName, lastName);
 		
 		result = ds.CreateCustomer(c);
+		return result;
+	}
+	
+	public String ReadAllCustomers() throws RemoteException {
+		result = ds.ReadCustomers();
 		return result;
 	}
 	
@@ -89,6 +99,11 @@ public class RMIClient {
 		Vehicle v = new Vehicle(regNo, brand, model);
 
 		result = ds.CreateVehicle(v);
+		return result;
+	}
+	
+	public String ReadAllVehicles() throws RemoteException {
+		result = ds.ReadVehicles();
 		return result;
 	}
 

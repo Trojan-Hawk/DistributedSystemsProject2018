@@ -3,6 +3,9 @@ package ie.gmit.sw;
 import java.rmi.*;
 
 public interface DatabaseService extends Remote {
+	public String ReadBookings() throws RemoteException;
+	public String ReadCustomers() throws RemoteException;
+	public String ReadVehicles() throws RemoteException;
 	
 	public String CreateBooking(Booking b) throws RemoteException;
 	public String CreateVehicle(Vehicle v) throws RemoteException;

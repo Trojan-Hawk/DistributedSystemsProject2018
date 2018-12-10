@@ -1,0 +1,31 @@
+CREATE database IF NOT exists bookings;
+
+USE bookings;
+
+DROP TABLE IF exists customer;
+DROP TABLE IF exists vehicle;
+DROP TABLE IF exists booking;
+
+CREATE TABLE customer (
+	customerId int NOT NULL,
+	firstname varchar(50) NOT NULL,
+	lastname varchar(50) NOT NULL,
+	PRIMARY KEY (customerId)
+);
+	
+CREATE TABLE vehicle (
+	regNo varchar(20) NOT NULL,
+	brand varchar(50) NOT NULL,
+	model varchar(50) NOT NULL,
+	PRIMARY KEY (regNo)
+);
+
+CREATE TABLE booking (
+	bookingId int NOT NULL,
+	customerId int NOT NULL,
+	regNo varchar(20) NOT NULL,
+	bookingdate varchar(20) NOT NULL,
+	PRIMARY KEY (bookingId),
+	FOREIGN KEY (customerId) REFERENCES customer(customerId),
+	FOREIGN KEY (regNo) REFERENCES vehicle(regNo)
+);

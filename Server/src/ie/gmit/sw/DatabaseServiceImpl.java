@@ -21,23 +21,8 @@ public class DatabaseServiceImpl extends UnicastRemoteObject implements Database
 	// Booking SQL statement builders
 	@Override
 	public String CreateBooking(Booking b) throws RemoteException {
-		/* DATE ISSUE NEEDS TO BE FIXED HERE****************************************************************************************************
-		// convert java.util.date object to a java.sql.date object
-		// java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-		DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-		// java.sql.Date sDate = java.sql.Date.valueOf(df.format(date));
-		// String sDate = df.format(date);
-		java.sql.Date sDate = new java.sql.Date(System.currentTimeMillis());
-		System.out.println(sDate.toString());
-		System.out.println(df.format(sDate));
-		*/
-		sqlStatement = "INSERT INTO customer VALUES(" + b.getBookingID() + ", " + b.getCustomerId() + ", '" + b.getVehicleReg() + "', " + b.getDate() + ")";
+		sqlStatement = "INSERT INTO booking VALUES(" + b.getBookingID() + ", " + b.getCustomerId() + ", '" + b.getVehicleReg() + "', '" + b.getDate() + "')";
 		result = bd.ExecuteInsertStatement(sqlStatement);
-		/*
-		// sqlInsert = "insert into booking values(" + bookingId + ", " + customerId + ", '" + regNo + "', DATE_FORMAT(" + sDate.toString() + ", '%Y/%m/%d'))";
-		sqlInsert = "insert into booking values(" + bookingId + ", " + customerId + ", '" + regNo + "', " + "1970/10/2" + ")";
-		bd.ExecuteStatement(sqlInsert);
-		*/
 		return result;
 	}
 
@@ -53,13 +38,13 @@ public class DatabaseServiceImpl extends UnicastRemoteObject implements Database
 			sqlStatement += StatementBuilderHelper(count);
 			sqlStatement += "customerId = " + b.getCustomerId();
 		}
-		if(b.getVehicleReg() != null) {
+		if(!(b.getVehicleReg().equals("null"))) {
 			sqlStatement += StatementBuilderHelper(count);
-			sqlStatement += "regNo = " + b.getVehicleReg();
+			sqlStatement += "regNo LIKE '" + b.getVehicleReg() + "'";
 		}
-		if(b.getDate() != null) {
+		if(!(b.getDate().equals("null"))) {
 			sqlStatement += StatementBuilderHelper(count);
-			sqlStatement += "regNo = " + b.getVehicleReg();
+			sqlStatement += "bookingdate LIKE " + b.getDate() + "'";
 		}
 		sqlStatement += ";";
 		
@@ -69,7 +54,7 @@ public class DatabaseServiceImpl extends UnicastRemoteObject implements Database
 	
 	@Override
 	public String UpdateBooking(Booking b) throws RemoteException {
-		sqlStatement = "UPDATE booking SET bookingId=" + b.getBookingID() + ", customerId=" + b.getCustomerId() + ", regNo='" + b.getVehicleReg() + "', bookingdate=" + b.getDate() + " WHERE bookingId = " + b.getBookingID();
+		sqlStatement = "UPDATE booking SET customerId=" + b.getCustomerId() + ", regNo='" + b.getVehicleReg() + "', bookingdate= '" + b.getDate() + "' WHERE bookingId = " + b.getBookingID();
 		result = bd.ExecuteUpdateStatement(sqlStatement);
 		return result;
 	}
@@ -136,7 +121,7 @@ public class DatabaseServiceImpl extends UnicastRemoteObject implements Database
 	@Override
 	public String ReadVehicle(Vehicle v) throws RemoteException {
 		int count = 0;
-		sqlStatement = "SELECT * FROM customer";
+		sqlStatement = "SELECT * FROM vehicle";
 		if(v.getRegNo() != null) {
 			sqlStatement += " WHERE regNo LIKE '" + v.getRegNo() + "'";
 			count++;
@@ -169,6 +154,7 @@ public class DatabaseServiceImpl extends UnicastRemoteObject implements Database
 		return result;
 	}
 
+	// This method is used to aid the building of the SQL Select statements
 	public String StatementBuilderHelper(int i) {
 		if(i > 0) {
 			return " AND ";
@@ -176,6 +162,27 @@ public class DatabaseServiceImpl extends UnicastRemoteObject implements Database
 		else {
 			return " WHERE ";
 		}
+	}
+
+	@Override
+	public String ReadBookings() throws RemoteException {
+		sqlStatement = "SELECT * FROM booking;";
+		result = bd.ExecuteReadStatement(sqlStatement, "Booking");
+		return result;
+	}
+
+	@Override
+	public String ReadCustomers() throws RemoteException {
+		sqlStatement = "SELECT * FROM customer;";
+		String str = bd.ExecuteReadStatement(sqlStatement, "Customer");
+		return str;
+	}
+
+	@Override
+	public String ReadVehicles() throws RemoteException {
+		sqlStatement = "SELECT * FROM vehicle;";
+		String str = bd.ExecuteReadStatement(sqlStatement, "Vehicle");
+		return str;
 	}
 
 }

@@ -1,16 +1,15 @@
 package ie.gmit.sw;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Booking implements Serializable {
 
 	private int bookingID;
 	private String vehicleReg;
 	private int customerId;
-	private Date date;
+	private String date;
 	
-	public Booking(int bookingID, int customerId, String vehicleReg, Date date) {
+	public Booking(int bookingID, int customerId, String vehicleReg, String date) {
 		this.bookingID = bookingID;
 		this.customerId = customerId;
 		this.vehicleReg = vehicleReg;
@@ -29,7 +28,7 @@ public class Booking implements Serializable {
 		return customerId;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 

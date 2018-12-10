@@ -21,6 +21,22 @@ public class CustomerResource {
 	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/all")
+	public Response getCustomers() throws RemoteException {
+		String requested = rm.ReadAllCustomers();
+		
+		if(requested == null) {
+			String msg = "Cannot find customers.";
+			return Response.status(404).entity(msg).build();
+		}
+		else {
+			String msg = requested;
+			return Response.status(200).entity(msg).build();
+		}
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/{customerId}/{firstName}/{lastName}")
 	public Response getCustomer(@PathParam("customerId") String customerId, @PathParam("firstName") String firstName, @PathParam("lastName") String lastName) throws RemoteException {
 		String requested = rm.ReadCustomer(Integer.parseInt(customerId), firstName, lastName);

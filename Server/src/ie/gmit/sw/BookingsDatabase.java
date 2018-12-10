@@ -27,10 +27,10 @@ public class BookingsDatabase {
         Statement stmt = conn.createStatement();) 
 		{
 			count = stmt.executeUpdate(statement);
-			System.out.println(count + " records inserted.\n");
+			System.out.println(count + " records inserted.");
 			return count + " records inserted.\n";
 		} catch (SQLException e) {
-			System.out.println("Insert failed!");
+			System.out.println("Insert failed!\nStatement: " + statement);
 			e.printStackTrace();
 			return null;
 		}
@@ -49,7 +49,7 @@ public class BookingsDatabase {
 			System.out.println(count + " records deleted.\n");
 			return count + " records deleted.\n";
 		} catch (SQLException e) {
-			System.out.println("Delete failed!");
+			System.out.println("Delete failed!\nStatement: " + statement);
 			e.printStackTrace();
 			return null;
 		}
@@ -65,10 +65,10 @@ public class BookingsDatabase {
         Statement stmt = conn.createStatement();) 
 		{
 			count = stmt.executeUpdate(statement);
-			System.out.println(count + " records updated.\n");
+			System.out.println(count + " records updated.");
 			return count + " records updated.\n";
 		} catch (SQLException e) {
-			System.out.println("Update failed!");
+			System.out.println("Update failed!\nStatement: " + statement);
 			e.printStackTrace();
 			return null;
 		}
@@ -84,15 +84,15 @@ public class BookingsDatabase {
         Statement stmt = conn.createStatement();) 
 		{
 			ResultSet rs = stmt.executeQuery(statement);
-			String str = null;
+			String str = "";
 			
 			if(table.equalsIgnoreCase("Booking")) {
 				while (rs.next()) {
 				    int id = rs.getInt("bookingId");
 				    String firstName = rs.getString("customerId");
 				    String lastName = rs.getString("regNo");	
-				    Date date = rs.getDate("bookingdate");
-				    str += id + ", " + firstName + ", " + lastName /*+ ", " + date.toString()*/;
+				    String date = rs.getString("bookingdate");
+				    str += id + "\t" + firstName + "\t" + lastName + "\t" + date + "|";
 				}
 			}
 			else if(table.equalsIgnoreCase("Customer")) {
@@ -100,7 +100,7 @@ public class BookingsDatabase {
 				    int id = rs.getInt("customerId");
 				    String firstName = rs.getString("firstname");
 				    String lastName = rs.getString("lastname");	        
-				    str += id + ", " + firstName + ", " + lastName;
+				    str += id + "\t " + firstName + "\t " + lastName + "|";
 				}
 			}
 			else if(table.equalsIgnoreCase("Vehicle")) {
@@ -108,13 +108,13 @@ public class BookingsDatabase {
 				    int reg = rs.getInt("regNo");
 				    String brand = rs.getString("brand");
 				    String model = rs.getString("model");	        
-				    str += reg + ", " + brand + ", " + model;
+				    str += reg + "\t " + brand + "\t " + model + "|";
 				}
 			}
 			System.out.println("Read OK!");
 			return str;
 		} catch (SQLException e) {
-			System.out.println("Read failed!");
+			System.out.println("Read failed!\nStatement: " + statement);
 			e.printStackTrace();
 			return null;
 		}

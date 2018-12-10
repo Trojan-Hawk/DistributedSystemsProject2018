@@ -21,6 +21,22 @@ public class VehicleResource {
 	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/all")
+	public Response getVehicles() throws RemoteException {
+		String requested = rm.ReadAllVehicles();
+		
+		if(requested == null) {
+			String msg = "Cannot find vehicles.";
+			return Response.status(404).entity(msg).build();
+		}
+		else {
+			String msg = requested;
+			return Response.status(200).entity(msg).build();
+		}
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/{regNo}/{brand}/{model}")
 	public Response getOrder(@PathParam("regNo") String regNo, @PathParam("brand") String brand, @PathParam("model") String model) throws RemoteException {
 		String requested = rm.ReadVehicle(regNo, brand, model);
